@@ -1,44 +1,24 @@
-# routes/audit_routes.py
-from fastapi import APIRouter, Query, status
-from app.services import audit_service
-from app.schemas.audit_schemas import AuditLog, AuditLogCreate
-from typing import List
+from fastapi import APIRouter, HTTPException
+from app.services import auth_service
+from app.schemas.auth_schemas import LoginRequest, LoginResponse
 
 router = APIRouter(
-    prefix="/audit",
-    tags=["Auditoría"]
+    prefix="/auth",
+    tags=["Autenticación"]
 )
 
 @router.post(
-    "/",
-    response_model=dict,
-    status_code=status.HTTP_201_CREATED,
-    summary="Registrar evento de auditoría",
+    "/login",
+    response_model=LoginResponse,
+    summary="Iniciar sesión",
     responses={
-        201: {"description": "Evento registrado exitosamente."},
-        500: {"description": "Error al registrar evento."}
+        404: {"description": "Usuario no encontrado"},
+        500: {"description": "Error en el servidor"}
     }
 )
-def create_audit_log(log: AuditLogCreate):
-    """Registra un nuevo evento en los logs de auditoría."""
-    audit_service.log_audit_event(
-        action=log.action,
-        user_id=log.user_id,
-        resource_id=log.resource_id,
-        details=log.details
-    )
-    return {"message": "Evento registrado exitosamente"}
-
-@router.get(
-    "/",
-    response_model=List[AuditLog],
-    summary="Listar eventos recientes de auditoría",
-    responses={
-        200: {"description": "Listado de eventos retornado con éxito."},
-        500: {"description": "Error al obtener eventos."}
-    }
-)
-def list_audit_logs(limit: int = Query(50, ge=1, le=100, description="Número máximo de eventos a retornar (1-100)")):
-    """Devuelve los eventos más recientes registrados en auditoría (máx. 100)."""
-    logs = audit_service.get_audit_logs(limit=limit)
-    return logs
+def login(request: LoginRequest):
+    """
+    Autentica a un usuario con email y contraseña, devolviendo un token de Firebase.
+    """
+    result = auth_service.login_user(request.email, request.password)
+    return result
