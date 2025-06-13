@@ -1,7 +1,7 @@
 """
 Punto de arranque del backend FastAPI.
 
-Contiene la instancia `app` con una descripción extensa que se
+Contiene la instancia `app` con una descripción extensa que se 
 mostrará en Swagger UI (`/docs`) y ReDoc (`/redoc`).
 Agrupa las rutas por tags con iconos para facilitar la navegación.
 """
@@ -15,7 +15,7 @@ load_dotenv()
 import os
 
 # Routers
-from app.routers import files, search, auth_routes as auth, audit_routes as audit, documents_routes
+from app.routers import files, search, auth_routes as auth, audit_routes as audit, document_routes
 
 # ----------------------------------------------------------------------
 # Cargar variables de entorno (.env)
@@ -34,10 +34,10 @@ utilizando Google Gemini para la extracción de metadatos y resúmenes,
 Firebase para autenticación y almacenamiento, y Meilisearch para búsquedas *full-text*.
 
 ## Flujo general
-1. **POST /files** – El cliente sube un archivo.
+1. **POST /documents/upload** – El cliente sube un archivo.
 2. El backend lo guarda en Firebase Storage, lo analiza con Gemini,
    guarda los metadatos en Firestore y lo indexa en Meilisearch.
-3. El cliente puede consultar metadatos en **GET /files/{id}**
+3. El cliente puede consultar metadatos en **GET /documents/{id}**
    o buscar texto en **GET /search?q=…**.
 """
 
@@ -99,7 +99,17 @@ app.include_router(
 
 app.include_router(
     files.router,
-    prefix="/documents",
+    tags=["📄 Documentos"],
+    responses={
+        400: {"description": "Solicitud incorrecta"},
+        404: {"description": "No encontrado"},
+        413: {"description": "Archivo demasiado grande"},
+        500: {"description": "Error interno"},
+    },
+)
+
+app.include_router(
+    document_routes.router,
     tags=["📄 Documentos"],
     responses={
         400: {"description": "Solicitud incorrecta"},
