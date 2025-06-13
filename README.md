@@ -2,7 +2,7 @@
 
 Una API REST moderna construida con FastAPI que permite subir, indexar, buscar y descargar documentos utilizando Google Gemini para la extracción de metadatos y resúmenes, Firebase para autenticación y almacenamiento, y MeiliSearch para búsquedas full-text.
 
-## 🚀 Características
+## Características
 
 - **Carga de documentos**: Sube archivos y obtén metadatos automáticamente
 - **Análisis con IA**: Utiliza Google Gemini para extraer información y generar resúmenes
@@ -11,7 +11,7 @@ Una API REST moderna construida con FastAPI que permite subir, indexar, buscar y
 - **Auditoría**: Sistema completo de auditoría de eventos
 - **API Documentada**: Documentación automática con Swagger UI
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 - **FastAPI**: Framework web moderno y rápido
 - **Firebase**: Autenticación y almacenamiento
@@ -19,14 +19,14 @@ Una API REST moderna construida con FastAPI que permite subir, indexar, buscar y
 - **Google Gemini AI**: Análisis de documentos con IA
 - **Python 3.8+**: Lenguaje de programación
 
-## 📋 Requisitos Previos
+## Requisitos Previos
 
 1. **Python 3.8 o superior**
 2. **MeiliSearch**: Motor de búsqueda (ver instalación abajo)
 3. **Cuenta de Firebase**: Para autenticación y almacenamiento
 4. **API Key de Google Gemini**: Para análisis de documentos
 
-## 🔧 Instalación
+## Instalación
 
 ### 1. Clonar el repositorio
 ```bash
@@ -84,7 +84,7 @@ Editar `.env` con tus configuraciones:
 - Coloca tu archivo `firebase-service-account.json` en la raíz del proyecto
 - Asegúrate de que el archivo esté en `.gitignore`
 
-## 🚀 Uso
+## Uso
 
 ### 1. Iniciar MeiliSearch
 ```bash
@@ -108,7 +108,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 API_REST/
@@ -127,7 +127,7 @@ API_REST/
 └── README.md               # Este archivo
 ```
 
-## 🔑 Endpoints Principales
+## Endpoints Principales
 
 ### Autenticación
 - `POST /auth/register` - Registrar usuario
@@ -144,7 +144,7 @@ API_REST/
 ### Auditoría
 - `GET /audit/events` - Obtener eventos de auditoría
 
-## 🐛 Resolución de Problemas
+## Resolución de Problemas
 
 ### MeiliSearch no inicia
 1. Verifica que el puerto 7700 esté libre
@@ -161,11 +161,11 @@ API_REST/
 2. Confirma que tengas créditos disponibles
 3. Verifica los límites de rate limiting
 
-## 📝 Licencia
+## Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## 🤝 Contribución
+## Contribución
 
 Las contribuciones son bienvenidas. Por favor:
 1. Fork el proyecto

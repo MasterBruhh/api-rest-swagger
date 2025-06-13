@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.schemas.files import FileUploadResponse, FileMetadataResponse
-from app.services import storage_service as storage, database_service as database, search_service
+from app.services import storage_service, database_service as database, search_service
 from app.utils.helpers import current_timestamp, extract_text_dummy
 import uuid
 
@@ -19,7 +19,9 @@ async def upload_file(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="No se envió ningún archivo")
     file_id = str(uuid.uuid4())
     content = await file.read()
-    storage_service.upload_file(file_id, content, file.filename)
+    file.file.seek(0)
+    storage_service.upload_file(file)
+
 
     text = extract_text_dummy(content)
     metadata = {
@@ -31,7 +33,10 @@ async def upload_file(file: UploadFile = File(...)):
         "versions": []
     }
     database.save_metadata(metadata)
-    search_service.index_document(file_id, text, metadata)
+    meta_for_index = metadata.copy()
+    meta_for_index.pop("id", None)
+    index_data = {"content": text, **meta_for_index}
+    search_service.index_document(file_id, index_data)
     return {"id": file_id, "filename": file.filename, "message": "Archivo indexado correctamente"}
 
 @router.get(

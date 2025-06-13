@@ -10,7 +10,7 @@ class DocumentResponse(BaseModel):
     url: str
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "id": "doc123",
                 "filename": "archivo.pdf",
@@ -24,7 +24,7 @@ class SearchResults(BaseModel):
     results: List[DocumentResponse]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "results": [
                     {

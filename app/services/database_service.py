@@ -16,6 +16,18 @@ client = firestore.Client.from_service_account_json(cred_path)
 def save_document_metadata(doc_id: str, metadata: dict):
     client.collection("documents").document(doc_id).set(metadata)
 
+def save_metadata(metadata: dict) -> str:
+    # Si el diccionario ya tiene un id, usarlo como clave del documento
+    if "id" in metadata:
+        doc_id = metadata["id"]
+        client.collection("documents").document(doc_id).set(metadata)
+        return doc_id
+    else:
+        # Si no hay id, agregar el documento con ID automático
+        doc_ref = client.collection("documents").add(metadata)
+        # .add() retorna una tupla (write_result, document_ref)
+        return doc_ref[1].id
+
 def get_document_by_id(doc_id: str):
     doc = client.collection("documents").document(doc_id).get()
     if doc.exists:

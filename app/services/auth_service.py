@@ -4,10 +4,15 @@ from firebase_admin import auth, credentials
 import os
 from fastapi import HTTPException
 
-cred_path = os.getenv("FIREBASE_CREDENTIALS")
+cred_path = os.getenv("FIREBASE_CREDENTIALS") or os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH")
+if not cred_path:
+    cred_path = "firebase-service-account.json"
+if not os.path.exists(cred_path):
+    raise RuntimeError("Firebase credentials not found. Set FIREBASE_CREDENTIALS or place firebase-service-account.json in project root.")
 if not firebase_admin._apps:
     cred = credentials.Certificate(cred_path)
     firebase_admin.initialize_app(cred)
+
 
 def login_user(email: str, password: str) -> dict:
     """

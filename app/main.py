@@ -15,7 +15,7 @@ load_dotenv()
 import os
 
 # Routers
-from app.routers import files, search, auth_routes as auth, audit_routes as audit
+from app.routers import files, search, auth_routes as auth, audit_routes as audit, documents_routes
 
 # ----------------------------------------------------------------------
 # Cargar variables de entorno (.env)
@@ -99,7 +99,7 @@ app.include_router(
 
 app.include_router(
     files.router,
-    prefix="/files",
+    prefix="/documents",
     tags=["📄 Documentos"],
     responses={
         400: {"description": "Solicitud incorrecta"},

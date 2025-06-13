@@ -26,6 +26,6 @@ def search_documents(query: str):
     try:
         res = requests.post(url, json={"q": query}, headers=headers)
         res.raise_for_status()
-        return res.json().get("hits", [])
+        return res.json()
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=f"Error en búsqueda Meilisearch: {str(e)}")

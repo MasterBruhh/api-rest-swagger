@@ -6,7 +6,7 @@ class LoginRequest(BaseModel):
     password: str
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "email": "usuario@ejemplo.com",
                 "password": "passwordSeguro123"
@@ -18,7 +18,7 @@ class LoginResponse(BaseModel):
     user_id: str
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6...",
                 "user_id": "uid_usuario_firebase"
