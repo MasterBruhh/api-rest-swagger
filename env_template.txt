@@ -1,0 +1,21 @@
+# Environment Variables for Firebase Indexer API
+
+# Application Configuration
+APP_NAME=Indexador de Archivos API
+DEBUG=True
+ALLOWED_ORIGINS=*
+
+# Firebase Configuration
+# The app will automatically use firebase-service-account.json in the project root
+# Uncomment the line below if you prefer to specify an absolute path:
+# FIREBASE_SERVICE_ACCOUNT_KEY_PATH=C:/Users/cdavi/Desktop/demo_firebase/backend/API_REST/firebase-service-account.json
+
+# Firebase Storage Bucket (replace with your actual bucket name)
+FIREBASE_STORAGE_BUCKET=your-firebase-project-id.appspot.com
+
+# Meilisearch Configuration (if using Meilisearch for search)
+MEILISEARCH_URL=http://localhost:7700
+MEILISEARCH_API_KEY="YANbjf2cpIbWL4RKPaIaeOyTkKQ80Wo3i8yub5ToUeA"
+
+# Google Gemini API (if using Gemini for document analysis)
+GOOGLE_API_KEY=your-google-api-key 
