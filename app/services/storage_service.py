@@ -4,22 +4,30 @@ from google.cloud import storage
 from fastapi import UploadFile, HTTPException
 import uuid
 
-bucket_name = os.getenv("FIREBASE_STORAGE_BUCKET")
+client = None
+bucket = None
 
-# Try to get the credential path from environment variable, 
-# fallback to the local firebase-service-account.json file
-cred_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH")
-if not cred_path:
-    # Use the firebase-service-account.json file in the project root
-    cred_path = "firebase-service-account.json"
-    if not os.path.exists(cred_path):
-        raise RuntimeError("Firebase service account key not found. Either set FIREBASE_SERVICE_ACCOUNT_KEY_PATH environment variable or place firebase-service-account.json in the project root.")
+def get_storage_client():
+    global client, bucket
+    if client is None:
+        bucket_name = os.getenv("FIREBASE_STORAGE_BUCKET")
+        
+        # Try to get the credential path from environment variable, 
+        # fallback to the local firebase-service-account.json file
+        cred_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH") or os.getenv("FIREBASE_CREDENTIALS")
+        if not cred_path:
+            # Use the firebase-service-account.json file in the project root
+            cred_path = "firebase-service-account.json"
+            if not os.path.exists(cred_path):
+                raise RuntimeError("Firebase service account key not found. Either set FIREBASE_SERVICE_ACCOUNT_KEY_PATH environment variable or place firebase-service-account.json in the project root.")
 
-client = storage.Client.from_service_account_json(cred_path)
-bucket = client.get_bucket(bucket_name)
+        client = storage.Client.from_service_account_json(cred_path)
+        bucket = client.get_bucket(bucket_name)
+    return bucket
 
 def upload_file(file: UploadFile) -> str:
     try:
+        bucket = get_storage_client()
         ext = file.filename.split('.')[-1]
         blob_name = f"uploads/{uuid.uuid4()}.{ext}"
         blob = bucket.blob(blob_name)

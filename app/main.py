@@ -98,23 +98,12 @@ app.include_router(
 )
 
 app.include_router(
-    files.router,
-    tags=["📄 Documentos"],
-    responses={
-        400: {"description": "Solicitud incorrecta"},
-        404: {"description": "No encontrado"},
-        413: {"description": "Archivo demasiado grande"},
-        500: {"description": "Error interno"},
-    },
-)
-
-app.include_router(
     document_routes.router,
+    prefix="/documents",
     tags=["📄 Documentos"],
     responses={
         400: {"description": "Solicitud incorrecta"},
         404: {"description": "No encontrado"},
-        413: {"description": "Archivo demasiado grande"},
         500: {"description": "Error interno"},
     },
 )

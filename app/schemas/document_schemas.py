@@ -1,6 +1,34 @@
 # schemas/document_schemas.py
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
+
+class DocumentUploadResponse(BaseModel):
+    document_id: str
+    status: str
+    url: str
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "document_id": "doc123",
+                "status": "procesado",
+                "url": "https://storage.firebase.com/documents/doc123"
+            }
+        }
+
+class DocumentMetadataResponse(BaseModel):
+    id: str
+    filename: str
+    resumen: str
+    keywords: List[str]
+    url: str
+
+class SearchResult(BaseModel):
+    id: str
+    filename: str
+    resumen: str
+    keywords: List[str]
+    score: Optional[float] = None
 
 class DocumentResponse(BaseModel):
     id: str
